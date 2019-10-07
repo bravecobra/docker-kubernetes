@@ -20,4 +20,6 @@ Now proxy the dasboard
 
     kubectl proxy
 
+and use the token return from the previous command to login at <localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/cluster?namespace=_all>
+
 <http://docs.shippable.com/deploy/tutorial/create-kubeconfig-for-self-hosted-kubernetes-cluster/>

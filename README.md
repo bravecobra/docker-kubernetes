@@ -3,4 +3,4 @@
 * dashboard
 * helm
 * rancher
-* istio
+* istio (though rancher)
