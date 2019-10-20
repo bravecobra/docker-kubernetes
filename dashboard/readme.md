@@ -1,25 +1,44 @@
 # Install dashboard
 
+## Install
+
 From <https://github.com/kubernetes/dashboard>
 
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml
+```
 
-Look into <https://github.com/kubernetes/dashboard/wiki/Access-control>
+Look into <https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md>
 
-    kubectl create -f ./dashboard/dashboard-admin.yaml
+```bash
+kubectl apply -f ./dashboard/service-account.yaml  #create an account
+kubectl create -f ./dashboard/dashboard-admin.yaml #give the account cluster-admin access
+```
+
+## Using the dashboard
 
 Run the following to get the token with `cluster-admin` access
 
-    kubectl -n kube-system get secret
+```bash
+kubectl -n kubernetes-dashboard get secret
+```
 
-Look for `kubernetes-dashboard-token-xxxxx` and get the token with
+Look for `admin-user-token-xxxxx` and get the token with
 
-    kubectl -n kube-system describe secret kubernetes-dashboard-token-xxxxx
+```bash
+kubectl -n kubernetes-dashboard describe secret admin-user-token-xxxxx
+```
 
-Now proxy the dasboard
+or 
 
-    kubectl proxy
+```bash
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+```
 
-and use the token return from the previous command to login at <localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/cluster?namespace=_all>
+Now proxy the dashboard
 
-<http://docs.shippable.com/deploy/tutorial/create-kubeconfig-for-self-hosted-kubernetes-cluster/>
+```bash
+kubectl proxy
+```
+
+and use the token return from the previous command to login at [dashboard](  http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/ ).
