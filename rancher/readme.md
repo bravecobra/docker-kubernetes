@@ -44,9 +44,9 @@ kubectl get pods --namespace cert-manager
 
 ## Install rancher
 
-Provide an ingress proxy with SSL support. First create the certificate with mkcert (or omgwftssl) for the domain you want. Here we choose `rancher.localhost`
+Provide an ingress proxy with SSL support. First create the certificate with mkcert (or omgwftssl) for the domain you want. Here we choose `rancher.olympus.home`
 
-Do let's set hosts file accordingly.
+Do let's set hosts file accordingly on your own machine
 
 - Windows:  c:\windows\system32\drivers\etc\hosts
 - Mac/Linux: - /etc/hosts
@@ -54,25 +54,53 @@ Do let's set hosts file accordingly.
 Edit the appropriate file for your system and add an entry
 
 ```content
-<your local ip> rancher.localhost
+<your local ip> rancher.<your domain>
 ```
+
+Mine was
+
+```plain
+192.168.0.200 rancher.olympus.home
+```
+
+Add the same entries on your VM's in the `/etc/hosts` file of each VM.
+
+Alternatively, if you have a local DNS running, you can add the entry there once (<== prefered).
 
 Next generate a certificate with [mkcert](https://github.com/FiloSottile/mkcert)
 
 ```powershell
-mkcert rancher.localhost localhost 127.0.0.1 ::1
+mkcert rancher.olympus.home localhost 127.0.0.1 ::1
 ```
 
-Make a copy of the generated certificate (not the key) and call it cacerts.pem
+mkcert will create local CA certificatge with which it'll sign the requested certificate. The cluster will need to know that CA certificate as well to verify its validity.
 
 ```powershell
-copy rancher.localhost+3.pem cacerts.pem
+copy %APPDATA%\mkcert\rootCA.pem ./cacerts.pem
 ```
 
-Install an ingress proxy controller to expose the future rancher website. The rancher installer will create the ingress pointing to a certificate called cacerts.pem
+Install an ingress proxy controller to expose the future rancher website. The rancher installer will create the ingress pointing to a certificate called `cacerts.pem`.
 
 ```powershell
-helm install stable/nginx-ingress --name ingress-nginx --namespace ingress-nginx --wait
+helm install stable/nginx-ingress --name ingress-nginx --namespace ingress-nginx
+```
+
+Since we're runnign on bare-metal, kubernetes has no clue on which infrastructure it is running on. We need to expose the external ip directly
+
+```bash
+kubectl patch svc ingress-nginx-nginx-ingress-controller --namespace=ingress-nginx -p '{"spec": {"type": "LoadBalancer", "externalIPs":["192.168.0.200"]}}'
+```
+
+or get the service from the cluster
+
+```bash
+kubectl get services -o wide ingress-nginx-nginx-ingress-controller --namespace=ingress-nginx -o yaml > ./rancher/ingress-controller.yaml
+```
+
+Add the external IP manually and apply
+
+```bash
+kubectl apply -f ./rancher/ingress-controller.yaml
 ```
 
 Next install rancher
@@ -84,12 +112,12 @@ kubectl create namespace cattle-system
 
 kubectl -n cattle-system create secret generic tls-ca --from-file=cacerts.pem
 
-kubectl -n cattle-system create secret tls tls-rancher-ingress --key ./rancher.localhost+3-key.pem --cert ./rancher.localhost+3.pem
+kubectl -n cattle-system create secret tls tls-rancher-ingress --key ./rancher.olympus.home+3-key.pem --cert ./rancher.olympus.home+3.pem
 
-helm install rancher-alpha/rancher --name rancher --namespace cattle-system --set hostname=rancher.localhost --set ingress.tls.source=secret --set privateCA=true --version 2.3.0-alpha7
+helm install rancher-alpha/rancher --name rancher --namespace cattle-system --set hostname=rancher.olympus.home --set ingress.tls.source=secret --set privateCA=true --version 2.3.0-alpha7
 ```
 
-Now open your browser at <https://rancher.localhost>
+Now open your browser at [rancher](https://rancher.olympus.home)
 
 ```powershell
 kubectl -n cattle-system create secret tls rancher-cert --key ./rancher.localhost+3-key.pem --cert ./rancher.localhost+3.pem
