@@ -20,6 +20,21 @@ Add the Ubuntu ISO to the CD drive, which I downloaded from the site, then uploa
 
 Boot up each machine and just follow the installer of ubuntu server, accepting the defaults. I added the OpenSSH server and imported my github key so I didn't needed to setup ssh access any further.
 
+![Install1](Install1.png)
+![Install2](Install2.png)
+![Install3](Install3.png)
+![Install4](Install4.png)
+![Install5](Install5.png)
+![Install6](Install6.png)
+![Install7](Install7.png)
+![Install8](Install8.png)
+![Install9](Install9.png)
+![Install10](Install10.png)
+![Install11](Install11.png)
+![Install12](Install12.png)
+![Install13](Install13.png)
+![Install14](Install14.png)
+
 Then SSH into each machine in a separate terminal.
 
 ```powershell
@@ -83,6 +98,19 @@ sudo rm -f /swap.img
 sudo systemctl enable docker.service
 ```
 
+### Add DNS entries
+
+```bash
+sudo nano /etc/hosts
+```
+
+and add the following
+
+```hosts
+<vm-ip> <vm-name> <vm-name>.olympus.home
+<vm-ip> rancher rancher.olympus.home
+```
+
 ## Setup kubernetes
 
 ### Setup the master node
@@ -117,6 +145,8 @@ Use the following command on each of the worker nodes
 kubeadm join 192.168.0.200:6443 --token 5auxv4.26************90 --discovery-token-ca-cert-hash sha256:01e5ef2c************************************************6a4ff89564
 ```
 
+If you ever need to reconstruct this command, check out the [blog post of Scott Lowe]( https://blog.scottlowe.org/2019/08/15/reconstructing-the-join-command-for-kubeadm/ ).
+
 At this point your Kubernetes Cluster is up and running. You can use the `kubectl` command from the Master node to query the cluster information.
 
 ```bash
@@ -130,11 +160,17 @@ kubectl get nodes
 kubectl describe nodes
 ```
 
-Once all are in the rady state we have a working Kubernetes cluster with 3 nodes (one master node and 2 worker nodes).
+Once all are in the ready state we have a working Kubernetes cluster with 3 nodes (one master node and 2 worker nodes).
 
 ### Post install
 
-we have `kubectl` once we ssh into the master node, but we might want to get the same access from an external machine. To do so, we copy the `~/.kube/config` to our local machine and add it to our local `KUBECONFIG` env variable.  More on this in [kubectl configuration](../kubectl/readme.md)
+we have `kubectl` once we ssh into the master node, but we might want to get the same access from an external machine. To do so, we copy the `~/.kube/config` to our local machine and add it to our local `KUBECONFIG` env variable.  
+
+```bash
+scp your-username@192.168.0.200:/home/your-username/.kube/config C:/Users/your-username/.kube/config-esxi-kubernetes
+```
+
+More on this in [kubectl configuration](../kubectl/readme.md)
 
 #### Footnotes
 

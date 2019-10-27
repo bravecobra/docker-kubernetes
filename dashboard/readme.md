@@ -29,7 +29,7 @@ Look for `admin-user-token-xxxxx` and get the token with
 kubectl -n kubernetes-dashboard describe secret admin-user-token-xxxxx
 ```
 
-or 
+or
 
 ```bash
 kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')

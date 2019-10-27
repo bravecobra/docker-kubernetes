@@ -18,19 +18,25 @@ Then configure your configuration by adding extra `KUBECONFIG` files
 
 ![1571604877989](1571604877989.png)
 
-Each of the files describes your access to a particular cluster. To get that configuration, ssh into your master node and copy the config from `~/.kube/config`. Make sure that there is no conflicting naming with other config files as each key has to be unique across config files. You could also point the `KUBECONFIG` to one file and switch contexts using the ENV variable. However when all are loaded, you can switch context with
+Each of the files describes your access to a particular cluster. To get that configuration, ssh into your master node and copy the config from `~/.kube/config`.
 
-```	bash
-kubectl config get-contexts                          # display list of contexts 
+```bash
+scp your-username@192.168.0.200:/home/your-username/.kube/config C:/Users/your-username/.kube/config-esxi-kubernetes
+```
+
+Make sure that there is no conflicting naming with other config files as each key has to be unique across config files. You could also point the `KUBECONFIG` to one file and switch contexts using the ENV variable. However when all are loaded, you can switch context with
+
+```bash
+kubectl config get-contexts                          # display list of contexts
 kubectl config current-context                       # display the current-context
 kubectl config use-context my-cluster-name           # set the default context to my-cluster-name
 
 ```
 
-Once you selected the correct config, you should be able to describe the cluster
+Once you selected the correct config, you should be able to describe the cluster on your local machine
 
 ```bash
 kubectl cluster-info
 ```
 
-Ref: [conneting to multiple clusters](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
+Ref: [connecting to multiple clusters](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
