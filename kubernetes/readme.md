@@ -164,13 +164,96 @@ Once all are in the ready state we have a working Kubernetes cluster with 3 node
 
 ### Post install
 
-we have `kubectl` once we ssh into the master node, but we might want to get the same access from an external machine. To do so, we copy the `~/.kube/config` to our local machine and add it to our local `KUBECONFIG` env variable.  
+#### Remote Kubectl
+
+we have `kubectl` once we ssh into the master node, but we might want to get the same access from an external machine. To do so, we copy the `~/.kube/config` to our local machine and add it to our local `KUBECONFIG` env variable.
 
 ```bash
 scp your-username@192.168.0.200:/home/your-username/.kube/config C:/Users/your-username/.kube/config-esxi-kubernetes
 ```
 
 More on this in [kubectl configuration](../kubectl/readme.md)
+
+#### Docker login for private repositories
+
+To have the cluster be able to pull docker images from a private repository, refer to the [documentation]( https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#registry-secret-existing-credentials ).
+
+A `docker login` however will not store the credentials in the `config.json` as it is insecure, however you can easily create that credential as that's just the base64 encoded string of the username and password for the registry. Note that for github's package registry your password is to be a personal token, not the credentials you use to login.
+
+```powershell
+[Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes('$DOCKERHUB_USER:$DOCKERHUB_PASSWORD'))
+```
+
+or
+
+```bash
+echo -n '$DOCKERHUB_USER:$DOCKERHUB_PASSWD' | base64
+```
+
+and use the output in `config.json`
+
+```json
+{
+   "auths": {
+        "https://index.docker.io/v1/": {
+            "auth": "$BASE64_STRING"
+        }
+    }
+}
+```
+
+### MetalLb
+
+Since we're runnig on a BareMetal cluster (not on Azure, GCE, AWS, ...), the loadbalancers don't get an IP assigned. Kubernetes doesn't offer that out of the box. A solution for this is [MetalLB](https://metallb.universe.tf/installation/)
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.8.3/manifests/metallb.yaml
+```
+
+Then provide a config
+
+```bash
+kubectl apply -f ./src/kubernetes/metallb.yaml
+```
+
+Now each time a resource of type load balancer is started, MetalLB will assign it an external IP from the pool it was given.
+
+### Pull private images
+
+Basically follow the [kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
+
+Make sure your docker's `config.json` contains the secret.
+
+```json
+{
+    "auths": {
+        "https://index.docker.io/v1/": {
+            "auth": "c3R...zE2"
+        }
+    }
+}
+```
+
+> **_NOTE:_**  In case of github package registry, you use a personal token as the password to give access to your registries.
+
+Add a secret with those docker credentials to your cluster and give it a name like `regcred`.
+
+```bash
+kubectl create secret generic regcred --from-file=.dockerconfigjson=C:/Users/<username>/.docker/config.json --type=kubernetes.io/dockerconfigjson
+```
+
+Then use that secret by name as part of your deployment
+
+```yaml
+spec:
+    containers:
+    image: private-image:1.0
+    imagePullPolicy: IfNotPresent
+    name: private-image
+    imagePullSecrets:
+    - name: regcred
+    restartPolicy: Always
+```
 
 #### Footnotes
 

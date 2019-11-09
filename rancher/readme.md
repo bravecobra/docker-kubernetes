@@ -154,7 +154,7 @@ Adding monitoring through rancher, adds a Prometheus service to scrape the infor
 
 I slimmed down the defaults, since this cluster is not to take the heavy load a cluster usually does. We only use this one for demo purposes. In general go with the defaults for a production environment.
 
-Wit monitoring enabled, we get extra live information.
+With monitoring enabled, we get extra live information.
 
 ![monitoring](./Monitoring-Enabled.png)
 
@@ -167,3 +167,5 @@ Next add Istio. For this cluster, divide the default settings roughly by 4. I us
 ![Istio Pilot settings](./Istio-Pilot-Settings2.png "Pilot settings")
 ![Istio Mixer settings](./Istio-Mixer-Settings2.png "Mixer settings")
 ![Istio Tracing settings](./Istio-Tracing-Settings2.png "Tracing settings")
+
+Alternatively, you can use `istio-rancher-values.yaml` file and use that as an entry for the istio helm deployment under local Project System - Apps - Istio and upgrade it with the new values. These values are taken from the demo values of Istio source code and should suffice for a mini cluster. The minimal values are taking way too much cpu and memory into account and are designed for higher throughput (read production).

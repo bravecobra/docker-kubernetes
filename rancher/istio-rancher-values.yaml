@@ -1,0 +1,93 @@
+---
+  certmanager:
+    enabled: "false"
+  disablePolicyChecks: "false"
+  enableCRDs: "true"
+  galley:
+    enabled: "true"
+  gateways:
+    enabled: "true"
+    istio-ingressgateway:
+      ports:
+        -
+          name: "http2"
+          nodePort: "31380"
+          port: "80"
+        -
+          name: "https"
+          nodePort: "31390"
+          port: "443"
+      resources:
+        limits:
+          cpu: "256m"
+          memory: "256Mi"
+        requests:
+          cpu: "50m"
+          memory: "64Mi"
+      type: "NodePort"
+  global:
+    monitoring:
+      type: "cluster-monitoring"
+    proxy:
+      resources:
+        limits:
+          cpu: "20m"
+        requests:
+          cpu: "10m"
+          memory: "80Mi"
+    rancher:
+      clusterId: "local"
+      domain: "rancher.olympus.home"
+  istio_cni:
+    enabled: "false"
+  istiocoredns:
+    enabled: "false"
+  kiali:
+    enabled: "true"
+  mixer:
+    enabled: "true"
+    policy:
+      enabled: "true"
+      resources:
+        limits:
+          cpu: "256m"
+          memory: "1024Mi"
+        requests:
+          cpu: "125m"
+          memory: "256Mi"
+    telemetry:
+      resources:
+        limits:
+          cpu: "256m"
+          memory: "1024Mi"
+        requests:
+          cpu: "125m"
+          memory: "256Mi"
+  mtls:
+    enabled: "false"
+  nodeagent:
+    enabled: "false"
+  pilot:
+    enabled: "true"
+    resources:
+      limits:
+        cpu: "256m"
+        memory: "1024Mi"
+      requests:
+        cpu: "125m"
+        memory: "256Mi"
+    traceSampling: "1"
+  security:
+    enabled: "true"
+  sidecarInjectorWebhook:
+    enabled: "true"
+  tracing:
+    enabled: "true"
+    jaeger:
+      resources:
+        limits:
+          cpu: "100m"
+          memory: "256Mi"
+        requests:
+          cpu: "50m"
+          memory: "25Mi"
