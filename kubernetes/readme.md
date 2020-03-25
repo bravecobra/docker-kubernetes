@@ -202,6 +202,8 @@ and use the output in `config.json`
 }
 ```
 
+> **_WARNING_** Base64 is NOT encryption and should never be considered safe!
+
 ### MetalLb
 
 Since we're runnig on a BareMetal cluster (not on Azure, GCE, AWS, ...), the loadbalancers don't get an IP assigned. Kubernetes doesn't offer that out of the box. A solution for this is [MetalLB](https://metallb.universe.tf/installation/)

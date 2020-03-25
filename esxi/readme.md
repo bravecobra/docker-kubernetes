@@ -2,7 +2,7 @@
 
 ## Install ESXi
 
-I installed ESXi on an empty machine by running the ESXi installer from a boot USB disk.
+I installed ESXi on an empty bare metal machine by running the ESXi installer from a boot USB disk.
 
 To create that USB boot disk, I used [Rufus]( https://rufus.ie/ ), adding the [ESXi 6.7.0 install ISO]( https://my.vmware.com/en/web/vmware/evalcenter?p=free-esxi6 ).
 
