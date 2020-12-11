@@ -6,7 +6,7 @@
 
 I added 3 MAC addresses to my router's DHCP settings, so that each machine would get the same IP from the DHCP server
 
-![Router](Router.png)
+![Router](./images/Router.png)
 
 Next I added 3 new virtual machines, based on the [Ubuntu server 18.04 ISO]( http://releases.ubuntu.com/18.04/ ). Each machine was configured the same way, except for the MAC address of course.
 
@@ -14,26 +14,26 @@ Next I added 3 new virtual machines, based on the [Ubuntu server 18.04 ISO]( htt
 
 Create 3 virtual machine with the following specs:
 
-![Machine Specs](./Machine_Specs.png)
+![Machine Specs](./images/Machine_Specs.png)
 
 Add the Ubuntu ISO to the CD drive, which I downloaded from the site, then uploaded to the datastore.
 
 Boot up each machine and just follow the installer of ubuntu server, accepting the defaults. I added the OpenSSH server and imported my github key so I didn't needed to setup ssh access any further.
 
-![Install1](Install1.png)
-![Install2](Install2.png)
-![Install3](Install3.png)
-![Install4](Install4.png)
-![Install5](Install5.png)
-![Install6](Install6.png)
-![Install7](Install7.png)
-![Install8](Install8.png)
-![Install9](Install9.png)
-![Install10](Install10.png)
-![Install11](Install11.png)
-![Install12](Install12.png)
-![Install13](Install13.png)
-![Install14](Install14.png)
+![Install1](./images/Install1.png)
+![Install2](./images/Install2.png)
+![Install3](./images/Install3.png)
+![Install4](./images/Install4.png)
+![Install5](./images/Install5.png)
+![Install6](./images/Install6.png)
+![Install7](./images/Install7.png)
+![Install8](./images/Install8.png)
+![Install9](./images/Install9.png)
+![Install10](./images/Install10.png)
+![Install11](./images/Install11.png)
+![Install12](./images/Install12.png)
+![Install13](./images/Install13.png)
+![Install14](./images/Install14.png)
 
 Then SSH into each machine in a separate terminal.
 
@@ -86,7 +86,7 @@ Comment out the swap file in `/etc/fstab`
 sudo nano /etc/fstab
 ```
 
-![swap](./swap.png)
+![swap](./images/swap.png)
 
 Then delete the swap file
 
@@ -121,7 +121,7 @@ On the master node initialize the cluster.
 sudo kubeadm init
 ```
 
-![KubernetesJoin]( ./Kubernetes_Join.png)
+![KubernetesJoin]( ./images/Kubernetes_Join.png)
 
 Run the proposed commands on the master
 
@@ -154,7 +154,7 @@ kubectl cluster-info
 kubectl get nodes
 ```
 
-![Kubernetes-Up](Kubernetes-Up.png)
+![Kubernetes-Up](./images/Kubernetes-Up.png)
 
 ```bash
 kubectl describe nodes
@@ -172,7 +172,7 @@ we have `kubectl` once we ssh into the master node, but we might want to get the
 scp your-username@192.168.0.200:/home/your-username/.kube/config C:/Users/your-username/.kube/config-esxi-kubernetes
 ```
 
-More on this in [kubectl configuration](../kubectl/readme.md)
+More on this in [kubectl configuration](./kubectl.md)
 
 #### Docker login for private repositories
 
@@ -259,4 +259,4 @@ spec:
 
 #### Footnotes
 
-[^Reference: <http://vijayshinva.github.io/kubernetes/2018/07/28/setting-up-a-kubernetes-cluster-on-a-windows-laptop-using-hyper-v.html>]
+[Reference](http://vijayshinva.github.io/kubernetes/2018/07/28/setting-up-a-kubernetes-cluster-on-a-windows-laptop-using-hyper-v.html)

@@ -11,8 +11,8 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-b
 Look into <https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md>
 
 ```bash
-kubectl apply -f ./dashboard/service-account.yaml  #create an account
-kubectl create -f ./dashboard/dashboard-admin.yaml #give the account cluster-admin access
+kubectl apply -f ./src/dashboard/service-account.yaml  #create an account
+kubectl create -f ./src/dashboard/dashboard-admin.yaml #give the account cluster-admin access
 ```
 
 ## Using the dashboard

@@ -131,16 +131,16 @@ helm install rancher-latest/rancher --name rancher --namespace cattle-system --s
 
 Now open your browser at [rancher](https://rancher.olympus.home) and create your login.
 
-![installed](./Rancher-Installed.png)
+![installed](./images/Rancher-Installed.png)
 
 Note how the `cattle-cluster-agent` cannot start properly. That is due to the fact that we use a hostname that is not resolvable from the internet. We didn't use a DNS server to point to this installation.
 
 We need to allow the agent to use the node's /etc/hosts file.
 
-![cattle-cluster-agent-host-issue](./cattle-cluster-agent-host-issue.png "cattle-cluster-agent-host-issue")
-![cattle-cluster-agent-host-edit](./cattle-cluster-agent-host-edit.png "cattle-cluster-agent-host-edit")
-![cattle-cluster-agent-host-advancedsettings](./cattle-cluster-agent-host-advancedsettings.png "cattle-cluster-agent-host-advancedsettings")
-![cattle-cluster-agent-host-namespace](./cattle-cluster-agent-host-namespace.png "cattle-cluster-agent-host-namespace")
+![cattle-cluster-agent-host-issue](./images/cattle-cluster-agent-host-issue.png "cattle-cluster-agent-host-issue")
+![cattle-cluster-agent-host-edit](./images/cattle-cluster-agent-host-edit.png "cattle-cluster-agent-host-edit")
+![cattle-cluster-agent-host-advancedsettings](./images/cattle-cluster-agent-host-advancedsettings.png "cattle-cluster-agent-host-advancedsettings")
+![cattle-cluster-agent-host-namespace](./images/cattle-cluster-agent-host-namespace.png "cattle-cluster-agent-host-namespace")
 
 And save ;)
 
@@ -150,13 +150,13 @@ And save ;)
 
 Adding monitoring through rancher, adds a Prometheus service to scrape the information from the cluster.
 
-![prometheus](./Monitoring-Settings.png)
+![prometheus](./images/Monitoring-Settings.png)
 
 I slimmed down the defaults, since this cluster is not to take the heavy load a cluster usually does. We only use this one for demo purposes. In general go with the defaults for a production environment.
 
 With monitoring enabled, we get extra live information.
 
-![monitoring](./Monitoring-Enabled.png)
+![monitoring](./images/Monitoring-Enabled.png)
 
 ### Istio
 
@@ -164,8 +164,8 @@ Rancher allows istio to be install automatically given minimum version `2.3.0-al
 
 Next add Istio. For this cluster, divide the default settings roughly by 4. I used the following:
 
-![Istio Pilot settings](./Istio-Pilot-Settings2.png "Pilot settings")
-![Istio Mixer settings](./Istio-Mixer-Settings2.png "Mixer settings")
-![Istio Tracing settings](./Istio-Tracing-Settings2.png "Tracing settings")
+![Istio Pilot settings](./images/Istio-Pilot-Settings2.png "Pilot settings")
+![Istio Mixer settings](./images/Istio-Mixer-Settings2.png "Mixer settings")
+![Istio Tracing settings](./images/Istio-Tracing-Settings2.png "Tracing settings")
 
-Alternatively, you can use `istio-rancher-values.yaml` file and use that as an entry for the istio helm deployment under local Project System - Apps - Istio and upgrade it with the new values. These values are taken from the demo values of Istio source code and should suffice for a mini cluster. The minimal values are taking way too much cpu and memory into account and are designed for higher throughput (read production).
+Alternatively, you can use `./src/rancher/istio-rancher-values.yaml` file and use that as an entry for the istio helm deployment under local Project System - Apps - Istio and upgrade it with the new values. These values are taken from the demo values of Istio source code and should suffice for a mini cluster. The minimal values are taking way too much cpu and memory into account and are designed for higher throughput (read production).

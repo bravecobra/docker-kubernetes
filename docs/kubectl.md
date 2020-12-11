@@ -16,7 +16,7 @@ Then configure your configuration by adding extra `KUBECONFIG` files
 
 `kubectl` works with config files. You need to set the `KUBECONFIG`environment variable to contain all the files you would like to work with.
 
-![1571604877989](1571604877989.png)
+![1571604877989](./images/1571604877989.png)
 
 Each of the files describes your access to a particular cluster. To get that configuration, ssh into your master node and copy the config from `~/.kube/config`.
 

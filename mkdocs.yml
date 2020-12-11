@@ -1,0 +1,39 @@
+site_name: Bare-metal Kubernetes experiment
+site_author: Giovanni Van Geel
+site_description: >-
+  Setting up a bare metal Kubernetes cluster on VMWare's ESXi
+repo_name: bravecobra/docker-kubernetes
+repo_url: https://github.com/bravecobra/docker-kubernetes
+edit_uri: ""
+theme:
+  name: material
+  language: en
+  include_search_page: false
+  search_index_only: true
+plugins:
+  - search:
+      lang: en
+nav:
+  - Introduction: ./index.md
+  - Setting up ESXi: ./esxi.md
+  - Setup the cluster: ./kubernetes.md
+  - Accessing the cluster: ./kubectl.md
+  - Basic UI: ./dashboard.md
+  - Adding Helm: ./helm.md
+  - Adding Rancher: ./rancher.md
+
+markdown_extensions:
+  - admonition
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/bravecobra
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/bravecobra
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/giovanni-van-geel
+
+# Copyright
+copyright: Copyright &copy; 2020 Giovanni Van Geel
+dev_addr: 'localhost:8080'
