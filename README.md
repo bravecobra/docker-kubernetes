@@ -1,17 +1,6 @@
-# Kubernetes intro setup
+# Baremetal Kubernetes experiment
 
-## Prerequisites
+> **warning**: I wanted to figure out how hard it would be to get a kubernetes cluster up and running om a bare metal machine.
+    This setup is by **no means secure** and should **never** be used to a production environment. This is only an experiment!
 
-* You'll need a clean kubernetes cluster. To create one, use
-  * [kubernetes on ESXi](./esxi/readme.md) to create one
-  * the one-node cluster of docker-for-desktop with kubernetes enabled (reset if needed)
-  * minikube
-
-## Content
-
-* Create a [kubernetes cluster on ESXi](./esxi/readme.md)
-* Connecting to the cluster, using [kubectl](./kubectl/readme.md)
-* Add a cluster [dashboard](./dashboard/readme.md)
-* Install [helm](./helm/readme.md)
-* Install [rancher](./rancher/readme.md)
-* Install an application on the cluster.
+See the result at [Github pages](https://bravecobra.github.io/docker-kubernetes/)
